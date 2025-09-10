@@ -2,17 +2,180 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>SOS.Monde</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SOS.Monde – Aide d’urgence</title>
+  <meta name="description" content="PWA d’urgence multilingue pour contacter rapidement les secours et partager des infos essentielles." />
 
-  <!-- AdSense -->
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="icon" href="icons/icon-192.png">
+
+  <!-- Open Graph (partage) -->
+  <meta property="og:title" content="SOS.Monde – Aide d’urgence instantanée">
+  <meta property="og:description" content="Contacts vitaux, partage de position, SOS WhatsApp & SMS, en 4 langues.">
+  <meta property="og:url" content="https://860607.github.io/SOS-MONDE/">
+  <meta property="og:type" content="website">
+
+  <!-- Perf pour les annonces -->
+  <link rel="preconnect" href="https://pagead2.googlesyndication.com">
+  <link rel="preconnect" href="https://googleads.g.doubleclick.net">
+  <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
+  <link rel="dns-prefetch" href="https://googleads.g.doubleclick.net">
+
+  <!-- Consent Mode v2 (par défaut : refus, puis MAJ via les boutons) -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('consent','default', {
+      ad_storage:'denied', analytics_storage:'denied',
+      ad_user_data:'denied', ad_personalization:'denied',
+      wait_for_update:500
+    });
+    window.acceptCookies = () => {
+      gtag('consent','update', {
+        ad_storage:'granted', analytics_storage:'granted',
+        ad_user_data:'granted', ad_personalization:'granted'
+      });
+      localStorage.setItem('sos.cookieConsent','granted');
+      document.getElementById('cookie-banner')?.remove();
+    };
+    window.rejectCookies = () => {
+      gtag('consent','update', {
+        ad_storage:'denied', analytics_storage:'denied',
+        ad_user_data:'denied', ad_personalization:'denied'
+      });
+      localStorage.setItem('sos.cookieConsent','denied');
+      document.getElementById('cookie-banner')?.remove();
+    };
+  </script>
+
+  <!-- AdSense (ton compte) -->
   <meta name="google-adsense-account" content="ca-pub-2127913069931786" />
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2127913069931786" crossorigin="anonymous"></script>
 
-  <!-- Redirection vers l'app hébergée dans le repo SOS-MONDE -->
-  <meta http-equiv="refresh" content="0; url=/SOS-MONDE/">
+  <!-- Styles rapides -->
+  <style>
+    :root { color-scheme: light; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; background:#ffffff; color:#111; }
+    header { padding:16px; border-bottom:1px solid #eee; background:#fafafa; display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+    .lang button, .tools button { padding:6px 10px; font-size:14px; border:1px solid #ccc; background:#fff; border-radius:8px; cursor:pointer; }
+    .container { max-width:960px; margin:0 auto; padding:16px; }
+    h1 { margin: 8px 0; font-size: 28px; }
+    main { padding: 24px 16px; }
+    .card { background:#fff; border:1px solid #eee; border-radius:12px; padding:24px; margin:16px 0; box-shadow: 0 1px 2px rgba(0,0,0,.04); }
+    .row { display:flex; flex-wrap:wrap; gap:10px; align-items:center; }
+    .btn { padding:10px 14px; border-radius:12px; border:1px solid #e5e5e5; background:#fff; cursor:pointer; }
+    .footer { margin:24px 0; text-align:center; font-size:14px; color:#666; }
+    /* Bannière cookie */
+    #cookie-banner { display:none; }
+    #cookie-banner.show { display:block; }
+    /* Mode contraste */
+    .contrast body, .contrast .card { background:#000; color:#fff; }
+    .contrast .card { border-color:#333; }
+  </style>
 </head>
 <body>
-  <p>Redirection vers <a href="/SOS-MONDE/">SOS.Monde</a>…</p>
+
+  <!-- Header -->
+  <header>
+    <div class="tools">
+      <button onclick="document.body.classList.toggle('contrast')">Contraste</button>
+      <button onclick="speechSynthesis.speak(new SpeechSynthesisUtterance('SOS Monde, appui aide d urgence'))">Lire</button>
+      <button onclick="navigator.vibrate && navigator.vibrate([80,40,80])">Vibreur</button>
+      <button onclick="document.body.style.fontSize='larger'">Texte +</button>
+    </div>
+    <h2 style="margin:0">SOS.Monde</h2>
+    <div class="lang">
+      <button>FR</button><button>EN</button><button>中文</button><button>日本語</button>
+    </div>
+  </header>
+
+  <!-- Bannière cookies -->
+  <div id="cookie-banner" class="container">
+    <div class="card">
+      <p>Nous utilisons des cookies pour améliorer le service et afficher des publicités. Acceptez-vous ?</p>
+      <div class="row">
+        <button class="btn" onclick="acceptCookies()">Accepter</button>
+        <button class="btn" onclick="rejectCookies()">Refuser</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contenu -->
+  <main class="container">
+    <section class="card">
+      <h1>Aide d’urgence, partout, tout de suite</h1>
+
+      <!-- === AdSense : BLOC SOUS LE TITRE (slot 8830638038) === -->
+      <ins class="adsbygoogle"
+           style="display:block; margin:16px 0"
+           data-ad-client="ca-pub-2127913069931786"
+           data-ad-slot="8830638038"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      <!-- ===================================================== -->
+
+      <p>Accédez rapidement aux contacts vitaux, partagez votre position et envoyez des alertes.</p>
+      <div class="row">
+        <button class="btn" onclick="alert('SOS envoyé (démo)')">Envoyer un SOS</button>
+        <button class="btn" onclick="shareLocation()">Partager ma position</button>
+        <button class="btn" onclick="window.location.href='tel:112'">Appeler les secours</button>
+        <button class="btn" onclick="sendWhatsApp()">WhatsApp SOS</button>
+        <button class="btn" onclick="window.location.href='sms:?&body=SOS%20Besoin%20d%27aide'">SMS SOS</button>
+      </div>
+    </section>
+
+    <!-- Autres sections… -->
+  </main>
+
+  <!-- Footer + lien confidentialité -->
+  <div class="container">
+    <!-- === AdSense : BLOC FOOTER (même slot, format relaxed) === -->
+    <ins class="adsbygoogle"
+         style="display:block; margin-top:24px"
+         data-ad-client="ca-pub-2127913069931786"
+         data-ad-slot="8830638038"
+         data-ad-format="autorelaxed"
+         data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    <!-- ======================================================== -->
+
+    <div class="footer">
+      © 2025 BIBI ONDOUA — <a href="./privacy.html">Confidentialité & cookies</a>
+    </div>
+  </div>
+
+  <!-- Script app : bannière cookies + fonctions utilitaires -->
+  <script>
+    // Affiche la bannière si pas de choix
+    (function () {
+      const c = localStorage.getItem('sos.cookieConsent');
+      if (!c) document.getElementById('cookie-banner')?.classList.add('show');
+    })();
+
+    // Partager la position (démo)
+    function shareLocation() {
+      if (!navigator.geolocation) return alert("La géolocalisation n'est pas disponible.");
+      navigator.geolocation.getCurrentPosition(
+        pos => {
+          const { latitude, longitude } = pos.coords;
+          const url = `https://maps.google.com/?q=${latitude},${longitude}`;
+          navigator.clipboard?.writeText(url);
+          alert("Position copiée : " + url);
+        },
+        err => alert("Impossible d'obtenir la position : " + err.message),
+        { enableHighAccuracy:true, timeout:10000, maximumAge:0 }
+      );
+    }
+
+    function sendWhatsApp() {
+      const text = encodeURIComponent("SOS: j’ai besoin d’aide. Ma position: ");
+      const link = `https://wa.me/?text=${text}`;
+      window.open(link, '_blank');
+    }
+  </script>
 </body>
 </html>
